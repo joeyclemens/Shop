@@ -711,8 +711,8 @@ function render(){
   $('#store-note').hidden=!ui.saveFailed;
   if(ui.focus){
     const el=document.querySelector(ui.focus);
-    if(el) el.focus();
-    ui.focus=null;
+    if(el) el.focus({preventScroll:!ui.scrollFocus});
+    ui.focus=null; ui.scrollFocus=false;
   }
 }
 
@@ -852,6 +852,7 @@ document.addEventListener('submit',e=>{
       state.meals.push(m);
       inp.value='';
       ui.focus='#add-'+q(m.id);
+      ui.scrollFocus=true;
       commit();
     }
   }else if(f.classList.contains('ing-form')){
