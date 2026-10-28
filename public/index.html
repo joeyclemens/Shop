@@ -492,7 +492,7 @@ async function pull(){
     if(!r.ok) throw new Error('http '+r.status);
     const d=await r.json();
     if(!d.state){ sync.busy=false; await push(); return; }   // nothing stored yet: send this device's list up
-    if(d.rev!==sync.rev){ adopt(d,sync.dirty); }
+    if(d.rev>sync.rev){ adopt(d,sync.dirty); }
     else if(sync.dirty){ sync.busy=false; await push(); return; }
     else setStatus('synced');
   }catch(e){ setStatus('offline'); }
@@ -509,6 +509,7 @@ async function push(){
     if(r.status===409){
       const d=await r.json();
       if(!d.state){ sync.rev=0; saveMeta(); sync.busy=false; await push(); return; }
+      if(d.rev<sync.rev){ sync.rev=d.rev; saveMeta(); sync.busy=false; await push(); return; }
       adopt(d,true);
       return;
     }
