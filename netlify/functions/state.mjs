@@ -13,7 +13,7 @@ export default async (req) => {
     return json({ error: "unauthorised" }, 401);
   }
 
-  const store = getStore("weekly-shop");
+  const store = getStore({ name: "weekly-shop", consistency: "strong" });
   const current = (await store.get("state", { type: "json" })) ?? { state: null, rev: 0 };
 
   if (req.method === "GET") {
