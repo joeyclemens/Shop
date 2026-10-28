@@ -1,0 +1,902 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Weekly Shop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one narrow column, built to be used one-handed in a shop.
+   List rows are ruled lines; only the add bars and meal blocks are surfaces.
+   Cool chalk ground, harbour-slate ink, one lobster-pot orange for actions and quantities. */
+:root{
+  color-scheme:light;
+  padding-block:env(safe-area-inset-top, 0px) env(safe-area-inset-bottom, 0px);
+  --bg:#EBF0EE;
+  --card:#F8FAF9;
+  --ink:#14262A;
+  --muted:#566B6D;
+  --line:#C9D4D1;
+  --chip:#DFE8E5;
+  --accent:#D9442B;
+  --accent-ink:#FFFFFF;
+  --font-display:'Bricolage Grotesque',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --font-body:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E191B;
+    --card:#162427;
+    --ink:#E4EEEC;
+    --muted:#92A7A8;
+    --line:#2A3C3F;
+    --chip:#1D2E31;
+    --accent:#FF6B4F;
+    --accent-ink:#1B0A06;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E191B;
+  --card:#162427;
+  --ink:#E4EEEC;
+  --muted:#92A7A8;
+  --line:#2A3C3F;
+  --chip:#1D2E31;
+  --accent:#FF6B4F;
+  --accent-ink:#1B0A06;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:16px;
+  line-height:1.4;
+  padding-block:20px 56px;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+}
+.app{max-width:640px;margin-inline:auto}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* masthead */
+.mast h1{
+  font-family:var(--font-display);
+  font-weight:800;
+  font-size:38px;
+  letter-spacing:-0.025em;
+  line-height:1.05;
+  margin:0;
+  text-wrap:balance;
+}
+.sub{
+  margin:6px 0 0;
+  font-family:var(--font-mono);
+  font-size:13px;
+  color:var(--muted);
+  font-variant-numeric:tabular-nums;
+}
+
+.sync{margin:2px 0 0;min-height:18px;font-family:var(--font-mono);font-size:12px;color:var(--muted)}
+
+/* tabs */
+.tabs{display:flex;gap:22px;margin-top:18px;border-bottom:1px solid var(--line)}
+.tab{
+  background:none;border:0;border-bottom:3px solid transparent;
+  padding:10px 0 9px;margin-bottom:-1px;
+  font-family:var(--font-display);font-weight:600;font-size:17px;
+  color:var(--muted);cursor:pointer;
+  display:flex;align-items:center;gap:8px;
+}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.badge{
+  font-family:var(--font-mono);font-weight:500;font-size:12px;
+  background:var(--chip);color:var(--ink);
+  border-radius:99px;padding:1px 8px;min-width:22px;text-align:center;
+  font-variant-numeric:tabular-nums;
+}
+.badge:empty{display:none}
+
+/* forms */
+.addbar{
+  display:flex;flex-wrap:wrap;gap:8px;
+  background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:10px;margin-top:18px;
+}
+input[type="text"],select{
+  font:inherit;font-size:16px;color:var(--ink);
+  background:var(--bg);border:1px solid var(--line);border-radius:8px;
+  padding:10px 12px;min-height:44px;min-width:0;
+}
+.addbar input[type="text"]{flex:1 1 180px}
+.addbar select{flex:0 1 auto;max-width:100%}
+input::placeholder{color:var(--muted);opacity:1}
+.btn{
+  font-weight:600;font-size:15px;
+  background:var(--accent);color:var(--accent-ink);
+  border:1px solid var(--accent);border-radius:8px;
+  padding:10px 16px;min-height:44px;cursor:pointer;
+}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.ghost:hover{border-color:var(--ink)}
+.btn.small{min-height:36px;padding:6px 12px;font-size:14px}
+.msg{min-height:20px;margin:6px 2px 0;font-size:14px;color:var(--muted)}
+
+/* section headings */
+.sechead{
+  display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  margin:26px 0 4px;
+}
+.h2{
+  font-family:var(--font-mono);font-weight:500;font-size:12px;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:0;
+}
+.sechead .count{font-family:var(--font-mono);font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.linkbtn{background:none;border:0;padding:0;font-size:14px;color:var(--accent);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+
+/* list rows */
+.rows{list-style:none;margin:0;padding:0}
+.row{
+  display:flex;align-items:center;gap:8px;
+  min-height:50px;border-top:1px solid var(--line);
+}
+.rows .row:last-child{border-bottom:1px solid var(--line)}
+.row label{flex:1;min-width:0;display:flex;align-items:center;gap:14px;cursor:pointer;padding-block:8px}
+.name{min-width:0;overflow-wrap:anywhere}
+.row.done .name{text-decoration:line-through;color:var(--muted)}
+.qty{
+  font-family:var(--font-mono);font-weight:500;font-size:14px;color:var(--accent);
+  font-variant-numeric:tabular-nums;padding-right:6px;
+}
+.chk{
+  appearance:none;-webkit-appearance:none;
+  width:24px;height:24px;flex:none;margin:0;
+  border:2px solid var(--ink);border-radius:7px;background:transparent;
+  display:grid;place-content:center;cursor:pointer;
+}
+.chk:checked{background:var(--ink)}
+.chk:checked::after{
+  content:"";width:6px;height:11px;
+  border:solid var(--bg);border-width:0 2.5px 2.5px 0;
+  transform:rotate(45deg) translate(-1px,-1px);
+}
+.x{
+  flex:none;width:40px;height:40px;
+  background:none;border:0;border-radius:8px;
+  font-size:22px;line-height:1;color:var(--muted);cursor:pointer;
+}
+.x:hover{color:var(--accent)}
+.empty{
+  margin:22px 0 0;padding:18px 16px;
+  border:1px dashed var(--line);border-radius:12px;color:var(--muted);
+}
+
+/* finish bar */
+.finish{
+  display:flex;flex-wrap:wrap;align-items:center;gap:10px;
+  margin-top:18px;
+}
+.finish p{flex:1 1 220px;margin:0;font-size:15px}
+
+/* pantry of usual items */
+.pantry-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:36px}
+.psec{margin-top:14px}
+.phead{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.collapse{
+  background:none;border:0;padding:6px 0;cursor:pointer;
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--font-display);font-weight:600;font-size:17px;
+}
+.collapse .caret{display:inline-block;transition:transform .15s;font-size:12px;color:var(--muted)}
+.collapse[aria-expanded="false"] .caret{transform:rotate(-90deg)}
+.collapse .count{font-family:var(--font-mono);font-weight:400;font-size:12px;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px}
+.chip{
+  background:var(--chip);border:1px solid transparent;border-radius:99px;
+  padding:8px 14px;min-height:40px;font-size:15px;cursor:pointer;
+  max-width:100%;overflow-wrap:anywhere;text-align:left;
+}
+.chip:hover{border-color:var(--accent)}
+.chip .plus{color:var(--accent);font-weight:600;margin-right:4px}
+.chip.del .plus{margin:0 0 0 6px}
+.note{margin:6px 0 0;font-size:14px;color:var(--muted)}
+
+/* meals */
+.lede{margin:18px 0 0;color:var(--muted);font-size:15px;max-width:60ch}
+.lede strong{color:var(--ink);font-weight:600}
+.meal{
+  background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:6px 14px 14px;margin-top:14px;
+}
+.meal.off .ings{opacity:.55}
+.meal-head{display:flex;align-items:center;gap:12px;padding-top:8px}
+.meal-name{
+  flex:1 1 auto;min-width:0;
+  font-family:var(--font-display);font-weight:800;font-size:21px;letter-spacing:-0.015em;
+  background:transparent;border:1px solid transparent;border-radius:8px;
+  padding:6px 8px;margin-left:-8px;color:var(--ink);min-height:40px;
+}
+.meal-name:hover{border-color:var(--line)}
+.switch{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);cursor:pointer;flex:none}
+.sw{
+  appearance:none;-webkit-appearance:none;
+  width:42px;height:26px;border-radius:13px;margin:0;flex:none;
+  background:var(--line);position:relative;cursor:pointer;transition:background .15s;
+}
+.sw::after{
+  content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;
+  background:var(--ink);transition:transform .15s;
+}
+.sw:checked{background:var(--accent)}
+.sw:checked::after{transform:translateX(16px)}
+.ings{list-style:none;margin:8px 0 0;padding:0}
+.ing{display:flex;align-items:center;gap:8px;min-height:46px;border-top:1px solid var(--line)}
+.ing .iname{flex:1;min-width:0;overflow-wrap:anywhere}
+.tot{font-family:var(--font-mono);font-size:12px;color:var(--accent);white-space:nowrap}
+.step{display:flex;align-items:center;flex:none}
+.step button{
+  width:36px;height:36px;border-radius:8px;
+  background:var(--chip);border:0;font-size:18px;line-height:1;cursor:pointer;
+}
+.step button:disabled{opacity:.35;cursor:default}
+.step .n{
+  min-width:28px;text-align:center;
+  font-family:var(--font-mono);font-weight:500;font-size:15px;font-variant-numeric:tabular-nums;
+}
+.ing-form{display:flex;gap:8px;margin-top:10px}
+.ing-form input[type="text"]{flex:1 1 auto}
+.meal-foot{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:12px}
+.meal-foot p{margin:0;flex:1 1 200px;font-size:14px}
+.meal-empty{margin:10px 0 0;color:var(--muted);font-size:14px}
+
+/* footer */
+.backup{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-size:14px;color:var(--muted)}
+.backup summary{cursor:pointer;padding:6px 0}
+.backup p{margin:8px 0;max-width:60ch}
+.backup textarea{
+  width:100%;min-height:96px;margin-top:8px;
+  font-family:var(--font-mono);font-size:12px;color:var(--ink);
+  background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px;
+}
+.backup .btnrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.warn{
+  margin:18px 0 0;padding:12px 14px;border:1px solid var(--accent);border-radius:10px;
+  font-size:14px;
+}
+@media (prefers-reduced-motion: reduce){
+  *{transition:none!important}
+}
+@media (max-width:420px){
+  .mast h1{font-size:32px}
+  .meal-head{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="mast">
+    <h1>Weekly Shop</h1>
+    <p class="sub" id="sub" aria-live="polite"></p>
+    <p class="sync" id="sync" aria-live="polite"></p>
+  </header>
+
+  <form id="auth-form" class="addbar" autocomplete="off" hidden>
+    <label class="sr" for="passcode">Passcode</label>
+    <input id="passcode" type="password" placeholder="Passcode" autocomplete="current-password">
+    <button class="btn" type="submit">Unlock</button>
+  </form>
+
+  <nav class="tabs" role="tablist" aria-label="Views">
+    <button class="tab" role="tab" id="tab-list" data-tab="list" aria-controls="panel-list">Shopping list <span class="badge" id="badge-list"></span></button>
+    <button class="tab" role="tab" id="tab-meals" data-tab="meals" aria-controls="panel-meals">Meals <span class="badge" id="badge-meals"></span></button>
+  </nav>
+
+  <section id="panel-list" role="tabpanel" aria-labelledby="tab-list">
+    <form id="add-form" class="addbar" autocomplete="off">
+      <label class="sr" for="new-item">Item to add</label>
+      <input id="new-item" type="text" placeholder="Add an item" enterkeyhint="done">
+      <label class="sr" for="new-section">Section for a new item</label>
+      <select id="new-section"></select>
+      <button class="btn" type="submit">Add</button>
+    </form>
+    <p class="msg" id="add-msg" aria-live="polite"></p>
+
+    <div id="list-body"></div>
+    <div id="finish"></div>
+
+    <div class="pantry-head">
+      <h2 class="h2">Usual items</h2>
+      <button class="btn ghost small" type="button" id="edit-btn" data-act="edit"></button>
+    </div>
+    <div id="pantry"></div>
+    <form id="sec-form" class="addbar" autocomplete="off" hidden>
+      <label class="sr" for="new-sec">New section name</label>
+      <input id="new-sec" type="text" placeholder="New section, e.g. Pets">
+      <button class="btn" type="submit">Add section</button>
+    </form>
+  </section>
+
+  <section id="panel-meals" role="tabpanel" aria-labelledby="tab-meals" hidden>
+    <p class="lede">Add what each meal needs. Switch a meal on and its ingredients join the shopping list, with matching items <strong>combined into one line</strong>.</p>
+    <p class="lede" id="meal-summary" style="margin-top:8px"></p>
+    <form id="meal-form" class="addbar" autocomplete="off">
+      <label class="sr" for="new-meal">Meal name</label>
+      <input id="new-meal" type="text" placeholder="New meal, e.g. Fajitas">
+      <button class="btn" type="submit">Add meal</button>
+    </form>
+    <div id="meal-cards"></div>
+  </section>
+
+  <p class="warn" id="store-note" hidden>This browser window is not keeping your changes. Open the page in a normal (non-private) window to save the list.</p>
+
+  <details class="backup">
+    <summary>Backup and restore</summary>
+    <p>Your list is stored in this browser only. Copy a backup to keep a spare, or paste one into the box to restore it.</p>
+    <textarea id="backup-text" aria-label="Backup text" spellcheck="false"></textarea>
+    <div class="btnrow">
+      <button class="btn ghost small" type="button" data-act="backup-copy">Copy backup</button>
+      <button class="btn ghost small" type="button" data-act="backup-restore">Restore from box</button>
+    </div>
+    <p id="backup-msg" aria-live="polite"></p>
+  </details>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+//#PURE-START
+const uid=()=>Math.random().toString(36).slice(2,9);
+const cap=s=>s?s.charAt(0).toUpperCase()+s.slice(1):s;
+
+// Matching key: ignores case, punctuation and a simple trailing "s", so "Peppers" and "pepper" count as one thing.
+function norm(s){
+  let k=String(s).toLowerCase().replace(/[^\p{L}\p{N} ]/gu,'').replace(/\s+/g,' ').trim();
+  if(k.length>3 && /s$/.test(k) && !/(ss|us|is)$/.test(k)) k=k.slice(0,-1);
+  return k;
+}
+
+// "2 peppers" -> {qty:2,name:"peppers"}; "peppers" -> {qty:1,name:"peppers"}
+function parseIng(text){
+  const t=String(text).trim();
+  const m=t.match(/^(\d{1,2})\s*(?:x|×)?\s+(.+)$/i);
+  if(m) return {qty:parseInt(m[1],10),name:m[2].trim()};
+  return {qty:1,name:t};
+}
+
+// Combine the ingredients of every meal that is switched on into one line per item.
+function mergeMeals(meals){
+  const map=new Map();
+  meals.filter(m=>m.on).forEach(m=>{
+    m.ings.forEach(i=>{
+      const k=norm(i.name);
+      if(!k) return;
+      const e=map.get(k);
+      if(e){ e.qty+=i.qty; e.meals.add(m.id); }
+      else map.set(k,{key:k,name:cap(i.name),qty:i.qty,meals:new Set([m.id])});
+    });
+  });
+  return Array.from(map.values());
+}
+//#PURE-END
+
+const KEY='weekly-shop-v1';
+
+function seed(){
+  const sec=(name,items)=>({id:uid(),name:name,items:items.map(n=>({id:uid(),name:n,need:false,got:false}))});
+  const meal=(name,ings)=>({id:uid(),name:name,on:true,ings:ings.map(n=>({id:uid(),name:n,qty:1}))});
+  return {
+    sections:[
+      sec('Usual bits',['Bread','Brown bread','Banana','Apples','Cucumber','Grapes (red)','Butter (salted)','Cheese','Spinach','Danpak','Coffee','Fancy Coffee','Decaff Coffee','Yorkshire Tea','Cornish Tea','Decaff Tea','Eggs','Self raising Flour','Plain Flour','Sugar','Sweetner','Veg oil','Olive oil','Ketchup','Mayo','OJ','Milk','Whole milk','Cereals','Cereals (Cheerios + cocopops)','Chocolate','Medicine','Cat food (Wet)','Cat Food dry (Bob)','Cat Food dry (Betty)','Frozen garlic','Beans','Soft cheese']),
+      sec('Cleaning & household',['Kitchen cleaner','Multi service cleaner','Bathroom cleaner','Bleach','Floor cleaner','Bubble bath','Maeve bubble bath','Cat litter','Shampoo','Conditioner','Toothpaste','Shower gels','Hand soap','Sammy bags small','Sammy bags large','Washing up liquid','Mould spray','Food waste bags','Bathroom bin bags','Kitchen roll','Bin bags','Toilet roll','Dishwasher tablets','Fabric conditioner','Detergent','Baking parchment','Pink stuff paste']),
+      sec('Ellie',['Mushrooms','Avocado','Salad']),
+      sec('Phoebe',['Sausage rolls','Bagels']),
+      sec('Maeve',['Brioche','Nappies','Wipes','Butter for scones','Dinner stuff','Cheese for scone'])
+    ],
+    meals:[
+      meal('Meal one',['Chicken','Mango chut','Wedges','Peppers','Purée','Tortillas']),
+      meal('Meal two',['Peppers','Chicken','Quorn','Purée','Stock','Soured cream','Veg','Rice']),
+      meal('Meal three',['Chicken','Red onion','Peppers','Fajita mix','Wraps','Salad','Wedges']),
+      meal('Meal four',['Chicken','Quorn','Curry mix','Rice']),
+      meal('Meal five',['Chopped tomato','Mince','Carrots','Onions','Salad'])
+    ],
+    ticks:{}
+  };
+}
+
+function valid(s){
+  return !!(s && Array.isArray(s.sections) && Array.isArray(s.meals) && s.ticks && typeof s.ticks==='object');
+}
+function load(){
+  try{
+    const raw=localStorage.getItem(KEY);
+    if(raw){ const s=JSON.parse(raw); if(valid(s)) return s; }
+  }catch(e){}
+  return seed();
+}
+
+let state=load();
+const ui={tab:'list',edit:false,collapsed:{},confirmFinish:false,confirmMeal:null,focus:null,addSection:null,saveFailed:false};
+
+/* ---------- storage: this device first, then the shared copy on Netlify ---------- */
+const API='/api/state';
+const META_KEY='weekly-shop-sync';
+const PASS_KEY='weekly-shop-pass';
+const sync={rev:0,dirty:false,pass:'',timer:null,busy:false};
+try{
+  const m=JSON.parse(localStorage.getItem(META_KEY)||'{}');
+  sync.rev=m.rev|0; sync.dirty=!!m.dirty;
+  sync.pass=localStorage.getItem(PASS_KEY)||'';
+}catch(e){}
+
+function saveMeta(){ try{ localStorage.setItem(META_KEY,JSON.stringify({rev:sync.rev,dirty:sync.dirty})); }catch(e){} }
+function persist(){
+  try{ localStorage.setItem(KEY,JSON.stringify(state)); ui.saveFailed=false; }
+  catch(e){ ui.saveFailed=true; }
+}
+function save(){
+  persist();
+  sync.dirty=true; saveMeta();
+  clearTimeout(sync.timer);
+  sync.timer=setTimeout(push,800);
+}
+function commit(){ save(); render(); }
+
+function setStatus(s){
+  const text={
+    synced:'Synced',
+    syncing:'Saving…',
+    offline:'Saved on this device. Not connected.',
+    auth:'Enter the passcode to sync.',
+    conflict:'Updated from another device. Your last change was not kept, so redo it.'
+  }[s]||'';
+  $('#sync').textContent=text;
+}
+function needAuth(){
+  sync.pass='';
+  try{ localStorage.removeItem(PASS_KEY); }catch(e){}
+  setStatus('auth');
+  $('#auth-form').hidden=false;
+  $('#passcode').focus();
+}
+function api(method,body){
+  const h={'content-type':'application/json'};
+  if(sync.pass) h['x-passcode']=sync.pass;
+  return fetch(API,{method:method,headers:h,body:body?JSON.stringify(body):undefined,cache:'no-store'});
+}
+function adopt(d,conflict){
+  if(!valid(d.state)){ setStatus('offline'); return; }
+  state=d.state; sync.rev=d.rev; sync.dirty=false;
+  clearTimeout(sync.timer);
+  persist(); saveMeta();
+  ui.confirmFinish=false; ui.confirmMeal=null;
+  render();
+  setStatus(conflict?'conflict':'synced');
+}
+async function pull(){
+  if(sync.busy) return;
+  sync.busy=true;
+  try{
+    const r=await api('GET');
+    if(r.status===401){ needAuth(); return; }
+    if(!r.ok) throw new Error('http '+r.status);
+    const d=await r.json();
+    if(!d.state){ sync.busy=false; await push(); return; }   // nothing stored yet: send this device's list up
+    if(d.rev!==sync.rev){ adopt(d,sync.dirty); }
+    else if(sync.dirty){ sync.busy=false; await push(); return; }
+    else setStatus('synced');
+  }catch(e){ setStatus('offline'); }
+  finally{ sync.busy=false; }
+}
+async function push(){
+  if(sync.busy){ clearTimeout(sync.timer); sync.timer=setTimeout(push,500); return; }
+  sync.busy=true;
+  const snap=JSON.stringify(state);
+  setStatus('syncing');
+  try{
+    const r=await api('PUT',{state:state,baseRev:sync.rev});
+    if(r.status===401){ needAuth(); return; }
+    if(r.status===409){
+      const d=await r.json();
+      if(!d.state){ sync.rev=0; saveMeta(); sync.busy=false; await push(); return; }
+      adopt(d,true);
+      return;
+    }
+    if(!r.ok) throw new Error('http '+r.status);
+    const d=await r.json();
+    sync.rev=d.rev;
+    if(JSON.stringify(state)===snap){ sync.dirty=false; setStatus('synced'); }
+    else{ clearTimeout(sync.timer); sync.timer=setTimeout(push,300); }
+    saveMeta();
+  }catch(e){ setStatus('offline'); }
+  finally{ sync.busy=false; }
+}
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden) pull(); });
+window.addEventListener('online',()=>{ pull(); });
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const q=s=>{ try{ return CSS.escape(s); }catch(e){ return String(s).replace(/["\\]/g,'\\$&'); } };
+
+let msgTimer=null;
+function msg(text){
+  const el=$('#add-msg'); el.textContent=text;
+  clearTimeout(msgTimer);
+  msgTimer=setTimeout(()=>{ el.textContent=''; },3500);
+}
+
+function stats(){
+  const merged=mergeMeals(state.meals);
+  let toGet=0,got=0;
+  state.sections.forEach(s=>s.items.forEach(i=>{ if(i.need){ if(i.got) got++; else toGet++; } }));
+  merged.forEach(m=>{ if(state.ticks[m.key]) got++; else toGet++; });
+  return {toGet:toGet,got:got,merged:merged};
+}
+
+function findItem(secId,id){
+  const s=state.sections.find(x=>x.id===secId);
+  return s?s.items.find(i=>i.id===id):null;
+}
+
+/* ---------- rendering ---------- */
+function renderHeader(st){
+  let sub;
+  if(st.toGet===0 && st.got===0) sub='Nothing on the list yet';
+  else sub=st.toGet+' to get'+(st.got?' · '+st.got+' in trolley':'');
+  $('#sub').textContent=sub;
+  $('#badge-list').textContent=st.toGet?String(st.toGet):'';
+  const on=state.meals.filter(m=>m.on).length;
+  $('#badge-meals').textContent=on?String(on):'';
+  ['list','meals'].forEach(t=>{
+    const b=$('#tab-'+t);
+    b.setAttribute('aria-selected',String(ui.tab===t));
+    b.tabIndex=ui.tab===t?0:-1;
+  });
+  $('#panel-list').hidden=ui.tab!=='list';
+  $('#panel-meals').hidden=ui.tab!=='meals';
+}
+
+function renderSectionSelect(){
+  const sel=$('#new-section');
+  const cur=ui.addSection||sel.value;
+  sel.innerHTML=state.sections.map(s=>'<option value="'+esc(s.id)+'">'+esc(s.name)+'</option>').join('');
+  if(state.sections.some(s=>s.id===cur)) sel.value=cur;
+}
+
+function renderList(st){
+  const groups=state.sections.map(s=>{
+    const items=s.items.filter(i=>i.need);
+    items.sort((a,b)=>(a.got?1:0)-(b.got?1:0));
+    return {s:s,items:items};
+  }).filter(g=>g.items.length);
+
+  let html='';
+  groups.forEach(g=>{
+    const left=g.items.filter(i=>!i.got).length;
+    html+='<div class="sechead"><h2 class="h2">'+esc(g.s.name)+'</h2><span class="count">'+left+' left</span></div><ul class="rows">';
+    g.items.forEach(i=>{
+      html+='<li class="row'+(i.got?' done':'')+'"><label><input class="chk" type="checkbox" data-act="tick" data-sec="'+esc(g.s.id)+'" data-id="'+esc(i.id)+'"'+(i.got?' checked':'')+'><span class="name">'+esc(i.name)+'</span></label>'
+        +'<button class="x" type="button" data-act="unneed" data-sec="'+esc(g.s.id)+'" data-id="'+esc(i.id)+'" aria-label="Take '+esc(i.name)+' off the list">×</button></li>';
+    });
+    html+='</ul>';
+  });
+
+  if(st.merged.length){
+    const sorted=st.merged.slice().sort((a,b)=>(state.ticks[a.key]?1:0)-(state.ticks[b.key]?1:0));
+    const left=st.merged.filter(m=>!state.ticks[m.key]).length;
+    html+='<div class="sechead"><h2 class="h2">For meals</h2><span class="count">'+left+' left · <button class="linkbtn" type="button" data-tab="meals">edit meals</button></span></div><ul class="rows">';
+    sorted.forEach(m=>{
+      const done=!!state.ticks[m.key];
+      html+='<li class="row'+(done?' done':'')+'"><label><input class="chk" type="checkbox" data-act="tickmeal" data-key="'+esc(m.key)+'"'+(done?' checked':'')+'><span class="name">'+esc(m.name)+'</span></label>'
+        +(m.qty>1?'<span class="qty">×'+m.qty+'</span>':'')+'</li>';
+    });
+    html+='</ul>';
+  }
+
+  if(!groups.length && !st.merged.length){
+    html='<p class="empty">Nothing on the list. Tap an item under Usual items to add it, or switch a meal on in the Meals tab.</p>';
+  }
+  $('#list-body').innerHTML=html;
+
+  let fin='';
+  if(st.got>0){
+    if(ui.confirmFinish){
+      fin='<div class="finish"><p>Clear '+st.got+' ticked '+(st.got===1?'item':'items')+'? Usual items go back below, and meals you have everything for switch off.</p>'
+        +'<button class="btn" type="button" data-act="finish-yes">Clear ticked</button>'
+        +'<button class="btn ghost" type="button" data-act="finish-no">Keep</button></div>';
+    }else{
+      fin='<div class="finish"><button class="btn ghost" type="button" data-act="finish">Finish shop · clear '+st.got+' ticked</button></div>';
+    }
+  }
+  $('#finish').innerHTML=fin;
+}
+
+function renderPantry(){
+  $('#edit-btn').textContent=ui.edit?'Done':'Edit items';
+  $('#sec-form').hidden=!ui.edit;
+  let html='';
+  state.sections.forEach(s=>{
+    const avail=s.items.filter(i=>!i.need);
+    const collapsed=!!ui.collapsed[s.id];
+    html+='<div class="psec"><div class="phead"><button class="collapse" type="button" data-act="togglesec" data-sec="'+esc(s.id)+'" aria-expanded="'+(!collapsed)+'"><span class="caret" aria-hidden="true">▼</span>'+esc(s.name)+' <span class="count">'+avail.length+'</span></button>';
+    if(ui.edit && s.items.length===0){
+      html+='<button class="btn ghost small" type="button" data-act="delsec" data-sec="'+esc(s.id)+'">Delete section</button>';
+    }
+    html+='</div>';
+    if(!collapsed){
+      if(avail.length){
+        html+='<div class="chips">';
+        avail.forEach(i=>{
+          if(ui.edit){
+            html+='<button class="chip del" type="button" data-act="delitem" data-sec="'+esc(s.id)+'" data-id="'+esc(i.id)+'" aria-label="Delete '+esc(i.name)+' from usual items">'+esc(i.name)+'<span class="plus" aria-hidden="true">×</span></button>';
+          }else{
+            html+='<button class="chip" type="button" data-act="need" data-sec="'+esc(s.id)+'" data-id="'+esc(i.id)+'"><span class="plus" aria-hidden="true">+</span>'+esc(i.name)+'</button>';
+          }
+        });
+        html+='</div>';
+      }else{
+        html+='<p class="note">'+(s.items.length?'Everything here is on your list.':'No items yet. Add one above.')+'</p>';
+      }
+    }
+    html+='</div>';
+  });
+  $('#pantry').innerHTML=html;
+}
+
+function renderMeals(st){
+  const on=state.meals.filter(m=>m.on);
+  const raw=on.reduce((n,m)=>n+m.ings.length,0);
+  let sum;
+  if(!state.meals.length) sum='No meals yet.';
+  else if(!on.length) sum='No meals are on the list.';
+  else sum=on.length+' of '+state.meals.length+' meals on the list. '+raw+' ingredients combine into '+st.merged.length+' items.';
+  $('#meal-summary').textContent=sum;
+
+  const totals={};
+  st.merged.forEach(m=>{ totals[m.key]=m.qty; });
+
+  let html='';
+  state.meals.forEach(m=>{
+    html+='<article class="meal'+(m.on?'':' off')+'"><div class="meal-head">'
+      +'<input class="meal-name" id="mn-'+esc(m.id)+'" type="text" data-act="rename" data-meal="'+esc(m.id)+'" value="'+esc(m.name)+'" aria-label="Meal name">'
+      +'<label class="switch"><input class="sw" id="sw-'+esc(m.id)+'" type="checkbox" role="switch" data-act="mealon" data-meal="'+esc(m.id)+'"'+(m.on?' checked':'')+'><span>On list</span></label></div>';
+    if(m.ings.length){
+      html+='<ul class="ings">';
+      m.ings.forEach(i=>{
+        const tot=totals[norm(i.name)];
+        const showTot=m.on && tot && tot>i.qty;
+        html+='<li class="ing"><span class="iname">'+esc(i.name)+'</span>'
+          +(showTot?'<span class="tot">'+tot+' in total</span>':'')
+          +'<div class="step"><button type="button" data-act="qtydown" data-meal="'+esc(m.id)+'" data-id="'+esc(i.id)+'" aria-label="Fewer '+esc(i.name)+'"'+(i.qty<=1?' disabled':'')+'>−</button>'
+          +'<span class="n" aria-label="Quantity">'+i.qty+'</span>'
+          +'<button type="button" data-act="qtyup" data-meal="'+esc(m.id)+'" data-id="'+esc(i.id)+'" aria-label="More '+esc(i.name)+'">+</button></div>'
+          +'<button class="x" type="button" data-act="ingdel" data-meal="'+esc(m.id)+'" data-id="'+esc(i.id)+'" aria-label="Remove '+esc(i.name)+' from this meal">×</button></li>';
+      });
+      html+='</ul>';
+    }else{
+      html+='<p class="meal-empty">No ingredients yet.</p>';
+    }
+    html+='<form class="ing-form" data-meal="'+esc(m.id)+'" autocomplete="off"><label class="sr" for="add-'+esc(m.id)+'">Add ingredient to '+esc(m.name)+'</label>'
+      +'<input id="add-'+esc(m.id)+'" type="text" placeholder="Add ingredient, e.g. 2 peppers"><button class="btn ghost" type="submit">Add</button></form>';
+    html+='<div class="meal-foot">';
+    if(ui.confirmMeal===m.id){
+      html+='<p>Delete '+esc(m.name)+' and its '+m.ings.length+' '+(m.ings.length===1?'ingredient':'ingredients')+'?</p>'
+        +'<button class="btn small" type="button" data-act="mealdel-yes" data-meal="'+esc(m.id)+'">Delete</button>'
+        +'<button class="btn ghost small" type="button" data-act="mealdel-no">Keep</button>';
+    }else{
+      html+='<button class="btn ghost small" type="button" data-act="mealdel" data-meal="'+esc(m.id)+'">Delete meal</button>';
+    }
+    html+='</div></article>';
+  });
+  $('#meal-cards').innerHTML=html;
+}
+
+function render(){
+  const st=stats();
+  renderHeader(st);
+  renderSectionSelect();
+  renderList(st);
+  renderPantry();
+  renderMeals(st);
+  $('#store-note').hidden=!ui.saveFailed;
+  if(ui.focus){
+    const el=document.querySelector(ui.focus);
+    if(el) el.focus();
+    ui.focus=null;
+  }
+}
+
+/* ---------- actions ---------- */
+function addItem(name){
+  name=name.trim();
+  if(!name) return;
+  const k=norm(name);
+  if(!k) return;
+  for(const s of state.sections){
+    const f=s.items.find(i=>norm(i.name)===k);
+    if(f){
+      const was=f.need && !f.got;
+      f.need=true; f.got=false;
+      msg(was?f.name+' is already on the list':'Added '+f.name);
+      return;
+    }
+  }
+  let sec=state.sections.find(s=>s.id===ui.addSection)||state.sections[0];
+  if(!sec){ sec={id:uid(),name:'Other',items:[]}; state.sections.push(sec); }
+  sec.items.push({id:uid(),name:cap(name),need:true,got:false});
+  msg('Added '+cap(name)+' to '+sec.name);
+}
+
+function addIngredients(mealId,text){
+  const m=state.meals.find(x=>x.id===mealId);
+  if(!m) return;
+  text.split(/[,\n]/).map(s=>s.trim()).filter(Boolean).forEach(part=>{
+    const p=parseIng(part);
+    if(!p.name) return;
+    const k=norm(p.name);
+    const ex=m.ings.find(i=>norm(i.name)===k);
+    if(ex) ex.qty+=p.qty; else m.ings.push({id:uid(),name:cap(p.name),qty:p.qty});
+  });
+}
+
+function finishShop(){
+  state.sections.forEach(s=>s.items.forEach(i=>{ if(i.need && i.got){ i.need=false; i.got=false; } }));
+  // a meal switches off once every one of its ingredients has been ticked
+  state.meals.forEach(m=>{
+    if(m.on && m.ings.length && m.ings.every(i=>state.ticks[norm(i.name)])) m.on=false;
+  });
+  const keys=new Set(mergeMeals(state.meals).map(x=>x.key));
+  Object.keys(state.ticks).forEach(k=>{ if(!keys.has(k)) delete state.ticks[k]; });
+}
+
+function setTab(t){
+  ui.tab=t==='meals'?'meals':'list';
+  try{ location.hash=ui.tab; }catch(e){}
+  render();
+  window.scrollTo(0,0);
+}
+
+/* ---------- events ---------- */
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-tab],[data-act]');
+  if(!t) return;
+  if(t.dataset.tab){ setTab(t.dataset.tab); return; }
+  const a=t.dataset.act;
+  const d=t.dataset;
+  const meal=d.meal?state.meals.find(m=>m.id===d.meal):null;
+  switch(a){
+    case 'need': { const it=findItem(d.sec,d.id); if(it){ it.need=true; it.got=false; commit(); } break; }
+    case 'unneed': { const it=findItem(d.sec,d.id); if(it){ it.need=false; it.got=false; commit(); } break; }
+    case 'delitem': { const s=state.sections.find(x=>x.id===d.sec); if(s){ s.items=s.items.filter(i=>i.id!==d.id); commit(); } break; }
+    case 'delsec': { state.sections=state.sections.filter(s=>s.id!==d.sec); commit(); break; }
+    case 'togglesec': ui.collapsed[d.sec]=!ui.collapsed[d.sec]; render(); break;
+    case 'edit': ui.edit=!ui.edit; render(); break;
+    case 'finish': ui.confirmFinish=true; render(); break;
+    case 'finish-no': ui.confirmFinish=false; render(); break;
+    case 'finish-yes': ui.confirmFinish=false; finishShop(); commit(); break;
+    case 'qtyup': { if(meal){ const i=meal.ings.find(x=>x.id===d.id); if(i){ i.qty+=1; ui.focus='button[data-act="qtyup"][data-id="'+q(d.id)+'"]'; commit(); } } break; }
+    case 'qtydown': { if(meal){ const i=meal.ings.find(x=>x.id===d.id); if(i && i.qty>1){ i.qty-=1; ui.focus='button[data-act="qtydown"][data-id="'+q(d.id)+'"]'; commit(); } } break; }
+    case 'ingdel': { if(meal){ meal.ings=meal.ings.filter(x=>x.id!==d.id); ui.focus='#add-'+q(meal.id); commit(); } break; }
+    case 'mealdel': ui.confirmMeal=d.meal; render(); break;
+    case 'mealdel-no': ui.confirmMeal=null; render(); break;
+    case 'mealdel-yes': state.meals=state.meals.filter(m=>m.id!==d.meal); ui.confirmMeal=null; commit(); break;
+    case 'backup-copy': backupCopy(); break;
+    case 'backup-restore': backupRestore(); break;
+    default: break;
+  }
+});
+
+document.addEventListener('change',e=>{
+  const t=e.target;
+  if(t.id==='new-section'){ ui.addSection=t.value; return; }
+  const a=t.dataset?t.dataset.act:null;
+  if(!a) return;
+  if(a==='tick'){
+    const it=findItem(t.dataset.sec,t.dataset.id);
+    if(it){ it.got=t.checked; ui.focus='input[data-act="tick"][data-id="'+q(t.dataset.id)+'"]'; commit(); }
+  }else if(a==='tickmeal'){
+    const k=t.dataset.key;
+    if(t.checked) state.ticks[k]=true; else delete state.ticks[k];
+    ui.focus='input[data-act="tickmeal"][data-key="'+q(k)+'"]';
+    commit();
+  }else if(a==='mealon'){
+    const m=state.meals.find(x=>x.id===t.dataset.meal);
+    if(m){ m.on=t.checked; ui.focus='#sw-'+q(m.id); commit(); }
+  }else if(a==='rename'){
+    const m=state.meals.find(x=>x.id===t.dataset.meal);
+    if(m){ m.name=t.value.trim()||m.name; save(); $('#store-note').hidden=!ui.saveFailed; }
+  }
+});
+
+document.addEventListener('submit',e=>{
+  e.preventDefault();
+  const f=e.target;
+  if(f.id==='auth-form'){
+    const v=$('#passcode').value.trim();
+    if(v){
+      sync.pass=v;
+      try{ localStorage.setItem(PASS_KEY,v); }catch(e){}
+      $('#passcode').value='';
+      $('#auth-form').hidden=true;
+      pull();
+    }
+  }else if(f.id==='add-form'){
+    const inp=$('#new-item');
+    addItem(inp.value);
+    inp.value='';
+    commit();
+    inp.focus();
+  }else if(f.id==='sec-form'){
+    const inp=$('#new-sec');
+    const name=inp.value.trim();
+    if(name && !state.sections.some(s=>norm(s.name)===norm(name))){
+      state.sections.push({id:uid(),name:cap(name),items:[]});
+    }
+    inp.value='';
+    commit();
+  }else if(f.id==='meal-form'){
+    const inp=$('#new-meal');
+    const name=inp.value.trim();
+    if(name){
+      const m={id:uid(),name:cap(name),on:true,ings:[]};
+      state.meals.push(m);
+      inp.value='';
+      ui.focus='#add-'+q(m.id);
+      commit();
+    }
+  }else if(f.classList.contains('ing-form')){
+    const id=f.dataset.meal;
+    const inp=f.querySelector('input');
+    addIngredients(id,inp.value);
+    ui.focus='#add-'+q(id);
+    commit();
+  }
+});
+
+/* ---------- backup ---------- */
+function backupMsg(t){ $('#backup-msg').textContent=t; }
+function backupCopy(){
+  const box=$('#backup-text');
+  box.value=JSON.stringify(state);
+  const fallback=()=>{ box.focus(); box.select(); backupMsg('Select and copy the text in the box.'); };
+  try{
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(box.value).then(()=>backupMsg('Backup copied.'),fallback);
+    }else fallback();
+  }catch(e){ fallback(); }
+}
+function backupRestore(){
+  const box=$('#backup-text');
+  try{
+    const s=JSON.parse(box.value);
+    if(!valid(s)) throw new Error('shape');
+    state=s;
+    ui.confirmFinish=false; ui.confirmMeal=null;
+    commit();
+    backupMsg('Restored.');
+  }catch(e){
+    backupMsg('That does not look like a backup from this app.');
+  }
+}
+
+/* ---------- start ---------- */
+function fromHash(){ ui.tab=location.hash==='#meals'?'meals':'list'; }
+window.addEventListener('hashchange',()=>{ fromHash(); render(); });
+fromHash();
+persist();
+render();
+pull();
+})();
+</script>
+</body>
+</html>
