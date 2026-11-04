@@ -90,19 +90,21 @@ button{font:inherit;color:inherit}
 .sync{margin:2px 0 0;min-height:18px;font-family:var(--font-mono);font-size:12px;color:var(--muted)}
 
 /* tabs */
-.tabs{display:flex;gap:18px;margin-top:18px;border-bottom:1px solid var(--line)}
+.tabs{display:flex;gap:11px;margin-top:18px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none}
 .tab{
   background:none;border:0;border-bottom:3px solid transparent;
   padding:10px 0 9px;margin-bottom:-1px;
-  font-family:var(--font-display);font-weight:600;font-size:17px;
-  color:var(--muted);cursor:pointer;
-  display:flex;align-items:center;gap:8px;
+  font-family:var(--font-display);font-weight:600;font-size:15px;
+  color:var(--muted);cursor:pointer;white-space:nowrap;
+  display:flex;align-items:center;gap:5px;
 }
 .tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
 .badge{
   font-family:var(--font-mono);font-weight:500;font-size:12px;
   background:var(--chip);color:var(--ink);
-  border-radius:99px;padding:1px 8px;min-width:22px;text-align:center;
+  border-radius:99px;padding:1px 6px;min-width:20px;text-align:center;
   font-variant-numeric:tabular-nums;
 }
 .badge:empty{display:none}
@@ -176,6 +178,14 @@ input::placeholder{color:var(--muted);opacity:1}
   font-size:22px;line-height:1;color:var(--muted);cursor:pointer;
 }
 .x:hover{color:var(--accent)}
+.qtext{
+  flex:1 1 auto;min-width:0;font:inherit;color:var(--ink);
+  background:transparent;border:1px solid transparent;border-radius:8px;
+  padding:8px;min-height:40px;
+}
+.qtext:hover,.qtext:focus{border-color:var(--line)}
+.row.done .qtext{text-decoration:line-through;color:var(--muted)}
+.row.qrow{gap:6px;padding-left:2px}
 .empty{
   margin:22px 0 0;padding:18px 16px;
   border:1px dashed var(--line);border-radius:12px;color:var(--muted);
@@ -355,6 +365,7 @@ textarea.field{font:inherit;font-size:16px;line-height:1.45;color:var(--ink);bac
     <button class="tab" role="tab" id="tab-list" data-tab="list" aria-controls="panel-list">Shopping list <span class="badge" id="badge-list"></span></button>
     <button class="tab" role="tab" id="tab-meals" data-tab="meals" aria-controls="panel-meals">Meals <span class="badge" id="badge-meals"></span></button>
     <button class="tab" role="tab" id="tab-recipes" data-tab="recipes" aria-controls="panel-recipes">Recipes</button>
+    <button class="tab" role="tab" id="tab-quick" data-tab="quick" aria-controls="panel-quick">Quick bits <span class="badge" id="badge-quick"></span></button>
   </nav>
 
   <section id="panel-list" role="tabpanel" aria-labelledby="tab-list">
@@ -391,6 +402,16 @@ textarea.field{font:inherit;font-size:16px;line-height:1.45;color:var(--ink);bac
       <button class="btn" type="submit">Add meal</button>
     </form>
     <div id="meal-cards"></div>
+  </section>
+
+  <section id="panel-quick" role="tabpanel" aria-labelledby="tab-quick" hidden>
+    <p class="note" style="margin:18px 0 0">Things to pick up midweek or whenever. Tap the text to edit it.</p>
+    <form id="quick-form" class="addbar" autocomplete="off" style="margin-top:12px">
+      <label class="sr" for="new-quick">New quick bit</label>
+      <input id="new-quick" type="text" placeholder="Add a quick bit" enterkeyhint="done">
+      <button class="btn" type="submit">Add</button>
+    </form>
+    <div id="quick-body"></div>
   </section>
 
   <section id="panel-recipes" role="tabpanel" aria-labelledby="tab-recipes" hidden>
@@ -598,7 +619,7 @@ function seed(){
   };
 }
 
-function fix(s){ if(!Array.isArray(s.recipes)) s.recipes=[ramenSeed()]; return s; }
+function fix(s){ if(!Array.isArray(s.recipes)) s.recipes=[ramenSeed()]; if(!Array.isArray(s.quick)) s.quick=[]; return s; }
 function valid(s){
   return !!(s && Array.isArray(s.sections) && Array.isArray(s.meals) && s.ticks && typeof s.ticks==='object');
 }
@@ -743,7 +764,9 @@ function renderHeader(st){
   $('#badge-list').textContent=st.toGet?String(st.toGet):'';
   const on=state.meals.filter(m=>m.on).length;
   $('#badge-meals').textContent=on?String(on):'';
-  ['list','meals','recipes'].forEach(t=>{
+  const qn=state.quick.filter(x=>!x.done).length;
+  $('#badge-quick').textContent=qn?String(qn):'';
+  ['list','meals','recipes','quick'].forEach(t=>{
     const b=$('#tab-'+t);
     b.setAttribute('aria-selected',String(ui.tab===t));
     b.tabIndex=ui.tab===t?0:-1;
@@ -751,6 +774,7 @@ function renderHeader(st){
   $('#panel-list').hidden=ui.tab!=='list';
   $('#panel-meals').hidden=ui.tab!=='meals';
   $('#panel-recipes').hidden=ui.tab!=='recipes';
+  $('#panel-quick').hidden=ui.tab!=='quick';
 }
 
 function renderSectionSelect(){
@@ -894,9 +918,28 @@ function renderMeals(st){
   $('#meal-cards').innerHTML=html;
 }
 
+function renderQuick(){
+  const items=state.quick.slice().sort((a,b)=>(a.done?1:0)-(b.done?1:0));
+  const done=items.filter(x=>x.done).length;
+  let html='';
+  if(!items.length) html='<p class="empty">Nothing here. Add a quick bit above.</p>';
+  else{
+    html='<ul class="rows" style="margin-top:14px">';
+    items.forEach(x=>{
+      html+='<li class="row qrow'+(x.done?' done':'')+'"><input class="chk" type="checkbox" id="qc-'+esc(x.id)+'" data-act="qtick" data-id="'+esc(x.id)+'"'+(x.done?' checked':'')+' aria-label="Done: '+esc(x.text)+'">'
+        +'<input class="qtext" id="qt-'+esc(x.id)+'" type="text" data-act="qedit" data-id="'+esc(x.id)+'" value="'+esc(x.text)+'" aria-label="Edit quick bit">'
+        +'<button class="x" type="button" data-act="qdel" data-id="'+esc(x.id)+'" aria-label="Delete '+esc(x.text)+'">×</button></li>';
+    });
+    html+='</ul>';
+    if(done) html+='<div class="finish"><button class="btn ghost" type="button" data-act="qclear">Clear '+done+' ticked</button></div>';
+  }
+  $('#quick-body').innerHTML=html;
+}
+
 function render(){
   const st=stats();
   renderHeader(st);
+  renderQuick();
   renderSectionSelect();
   renderList(st);
   renderPantry();
@@ -954,7 +997,7 @@ function finishShop(){
 }
 
 function setTab(t){
-  ui.tab=(t==='meals'||t==='recipes')?t:'list';
+  ui.tab=(t==='meals'||t==='recipes'||t==='quick')?t:'list';
   try{ location.hash=ui.tab; }catch(e){}
   render();
   window.scrollTo(0,0);
@@ -1284,6 +1327,8 @@ document.addEventListener('click',e=>{
     case 'delsec': { state.sections=state.sections.filter(s=>s.id!==d.sec); commit(); break; }
     case 'togglesec': ui.collapsed[d.sec]=!ui.collapsed[d.sec]; render(); break;
     case 'edit': ui.edit=!ui.edit; render(); break;
+    case 'qdel': state.quick=state.quick.filter(x=>x.id!==d.id); commit(); break;
+    case 'qclear': state.quick=state.quick.filter(x=>!x.done); commit(); break;
     case 'finish': ui.confirmFinish=true; render(); break;
     case 'finish-no': ui.confirmFinish=false; render(); break;
     case 'finish-yes': ui.confirmFinish=false; finishShop(); commit(); break;
@@ -1360,7 +1405,13 @@ document.addEventListener('change',e=>{
   if(t.id==='recipe-file'){ if(t.files&&t.files[0]) importRecipes(t.files[0]); return; }
   const a=t.dataset?t.dataset.act:null;
   if(!a) return;
-  if(a==='tick'){
+  if(a==='qtick'){
+    const x=state.quick.find(y=>y.id===t.dataset.id);
+    if(x){ x.done=t.checked; ui.focus='#qc-'+q(x.id); commit(); }
+  }else if(a==='qedit'){
+    const x=state.quick.find(y=>y.id===t.dataset.id);
+    if(x){ const v=t.value.trim(); if(v) x.text=v; else state.quick=state.quick.filter(y=>y.id!==x.id); commit(); }
+  }else if(a==='tick'){
     const it=findItem(t.dataset.sec,t.dataset.id);
     if(it){ it.got=t.checked; ui.focus='input[data-act="tick"][data-id="'+q(t.dataset.id)+'"]'; commit(); }
   }else if(a==='tickmeal'){
@@ -1400,6 +1451,9 @@ document.addEventListener('submit',e=>{
     inp.value='';
     commit();
     inp.focus();
+  }else if(f.id==='quick-form'){
+    const inp=$('#new-quick'), v=inp.value.trim();
+    if(v){ state.quick.push({id:uid(),text:v,done:false}); inp.value=''; ui.focus='#new-quick'; commit(); }
   }else if(f.classList.contains('sec-add')){
     const inp=f.querySelector('input');
     const name=inp.value.trim(), sec=state.sections.find(x=>x.id===f.dataset.sec);
@@ -1466,7 +1520,7 @@ function backupRestore(){
 }
 
 /* ---------- start ---------- */
-function fromHash(){ ui.tab=(location.hash==='#meals'||location.hash==='#recipes')?location.hash.slice(1):'list'; }
+function fromHash(){ ui.tab=(location.hash==='#meals'||location.hash==='#recipes'||location.hash==='#quick')?location.hash.slice(1):'list'; }
 window.addEventListener('hashchange',()=>{ fromHash(); render(); });
 fromHash();
 persist();
