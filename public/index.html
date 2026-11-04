@@ -835,7 +835,7 @@ function renderPantry(){
         html+='<p class="note">'+(s.items.length?'Everything here is on your list.':'No items yet. Add one above.')+'</p>';
       }
     }
-    if(ui.edit && !collapsed){
+    {
       html+='<form class="addbar sec-add" data-sec="'+esc(s.id)+'" autocomplete="off"><label class="sr" for="sa-'+esc(s.id)+'">New usual item for '+esc(s.name)+'</label><input id="sa-'+esc(s.id)+'" type="text" placeholder="New usual item for '+esc(s.name)+'" enterkeyhint="done"><button class="btn" type="submit">Add</button></form>';
     }
     html+='</div>';
