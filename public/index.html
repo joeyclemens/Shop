@@ -835,6 +835,9 @@ function renderPantry(){
         html+='<p class="note">'+(s.items.length?'Everything here is on your list.':'No items yet. Add one above.')+'</p>';
       }
     }
+    if(ui.edit && !collapsed){
+      html+='<form class="addbar sec-add" data-sec="'+esc(s.id)+'" autocomplete="off"><label class="sr" for="sa-'+esc(s.id)+'">New usual item for '+esc(s.name)+'</label><input id="sa-'+esc(s.id)+'" type="text" placeholder="New usual item for '+esc(s.name)+'" enterkeyhint="done"><button class="btn" type="submit">Add</button></form>';
+    }
     html+='</div>';
   });
   $('#pantry').innerHTML=html;
@@ -1397,6 +1400,17 @@ document.addEventListener('submit',e=>{
     inp.value='';
     commit();
     inp.focus();
+  }else if(f.classList.contains('sec-add')){
+    const inp=f.querySelector('input');
+    const name=inp.value.trim(), sec=state.sections.find(x=>x.id===f.dataset.sec);
+    if(name && sec){
+      const k=norm(name);
+      const dup=state.sections.some(x=>x.items.some(i=>norm(i.name)===k));
+      if(dup) msg(cap(name)+' is already in your usual items');
+      else{ sec.items.push({id:uid(),name:cap(name),need:false,got:false}); msg('Added '+cap(name)+' to '+sec.name+' usual items'); }
+      ui.focus='#'+inp.id;
+      commit();
+    }
   }else if(f.id==='sec-form'){
     const inp=$('#new-sec');
     const name=inp.value.trim();
