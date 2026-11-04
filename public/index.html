@@ -90,7 +90,7 @@ button{font:inherit;color:inherit}
 .sync{margin:2px 0 0;min-height:18px;font-family:var(--font-mono);font-size:12px;color:var(--muted)}
 
 /* tabs */
-.tabs{display:flex;gap:22px;margin-top:18px;border-bottom:1px solid var(--line)}
+.tabs{display:flex;gap:18px;margin-top:18px;border-bottom:1px solid var(--line)}
 .tab{
   background:none;border:0;border-bottom:3px solid transparent;
   padding:10px 0 9px;margin-bottom:-1px;
@@ -259,6 +259,61 @@ input::placeholder{color:var(--muted);opacity:1}
 .meal-foot p{margin:0;flex:1 1 200px;font-size:14px}
 .meal-empty{margin:10px 0 0;color:var(--muted);font-size:14px}
 
+/* recipes */
+.rbtn{flex:1;min-width:0;text-align:left;background:none;border:0;padding:12px 0;cursor:pointer;display:flex;flex-direction:column;gap:3px}
+.rname{font-family:var(--font-display);font-weight:600;font-size:18px;letter-spacing:-0.01em;overflow-wrap:anywhere}
+.rmeta{font-family:var(--font-mono);font-size:12px;color:var(--muted)}
+.pill{flex:none;font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:99px;padding:2px 9px;margin-right:4px}
+.rtitle{font-family:var(--font-display);font-weight:800;font-size:30px;letter-spacing:-0.02em;line-height:1.1;margin:14px 0 0;text-wrap:balance;overflow-wrap:anywhere}
+.ractions{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:16px}
+.ractions p{margin:0;font-size:14px;flex:1 1 200px}
+.amt{font-family:var(--font-mono);font-weight:500;font-size:14px;color:var(--accent);margin-right:6px;font-variant-numeric:tabular-nums}
+.prep{color:var(--muted)}
+.steps{list-style:none;margin:0;padding:0;counter-reset:s}
+.steps li{counter-increment:s;display:flex;gap:14px;padding:14px 0;border-top:1px solid var(--line);cursor:pointer}
+.steps li:last-child{border-bottom:1px solid var(--line)}
+.steps li::before{content:counter(s);flex:none;min-width:22px;font-family:var(--font-mono);font-weight:500;color:var(--accent);font-variant-numeric:tabular-nums}
+/* order panel */
+.order{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px 6px;margin-top:18px}
+.order-top{display:flex;justify-content:space-between;align-items:baseline}
+.otot{font-family:var(--font-mono);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.orow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0;border-top:1px solid var(--line);margin-top:8px}
+.order-top+.orow{margin-top:6px}
+.olabel{font-family:var(--font-display);font-weight:600;font-size:19px;min-width:0;overflow-wrap:anywhere}
+.order .step button{width:44px;height:44px;font-size:22px}
+.order .step .n{min-width:36px;font-size:20px;font-weight:500}
+/* ingredient receipt rows */
+.rrow label{flex:0 1 auto}
+.rrow .lead{flex:1 1 20px;min-width:12px;height:0;border-bottom:1px dotted var(--muted);align-self:center;margin-top:6px}
+.rrow .qty{white-space:nowrap}
+.grp{display:flex;align-items:center;gap:10px;margin:20px 0 2px;font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink)}
+.grp::after{content:"";flex:1;border-top:1px solid var(--ink)}
+/* steps */
+.sbody{min-width:0;overflow-wrap:anywhere}
+.sbody p{margin:0}
+.stitle{margin:0 0 3px;font-family:var(--font-display);font-weight:800;font-size:19px;letter-spacing:-0.01em;text-wrap:balance}
+.who{display:inline-block;vertical-align:2px;font-family:var(--font-mono);font-weight:500;font-size:11px;letter-spacing:.08em;text-transform:uppercase;background:var(--ink);color:var(--bg);padding:1px 7px;border-radius:4px;margin-right:4px}
+.mins{display:inline-block;margin-top:8px;font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;background:var(--chip);padding:2px 8px;border-radius:4px}
+.steps li.done::before{color:var(--muted)}
+.steps li.done .sbody{opacity:.5}
+.steps li.done .stitle{text-decoration:line-through;text-decoration-thickness:2px}
+.memo{margin-top:32px;background:var(--chip);border-radius:12px;padding:16px 18px}
+.memo-h{display:block;font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:6px}
+.memo ul{margin:0;padding-left:18px}
+.memo li{margin:6px 0}
+.memo p{margin:0}
+.fld{display:flex;flex-direction:column;gap:4px;margin-top:14px;min-width:0}
+.fld>span{font-family:var(--font-mono);font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.fld.half{flex:1 1 140px}
+.frow{display:flex;flex-wrap:wrap;gap:12px}
+textarea.field{font:inherit;font-size:16px;line-height:1.45;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;width:100%;min-height:120px;resize:vertical}
+.hint{margin:4px 0 0;font-size:13px;color:var(--muted)}
+.rfoot{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:24px}
+.rfoot p{margin:0;flex:1 1 200px;font-size:14px}
+.import{margin-top:40px;border-top:1px solid var(--line);padding-top:14px;font-size:14px;color:var(--muted)}
+.import summary{cursor:pointer;padding:6px 0}
+.import p{margin:8px 0;max-width:60ch}
+
 /* footer */
 .backup{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-size:14px;color:var(--muted)}
 .backup summary{cursor:pointer;padding:6px 0}
@@ -299,6 +354,7 @@ input::placeholder{color:var(--muted);opacity:1}
   <nav class="tabs" role="tablist" aria-label="Views">
     <button class="tab" role="tab" id="tab-list" data-tab="list" aria-controls="panel-list">Shopping list <span class="badge" id="badge-list"></span></button>
     <button class="tab" role="tab" id="tab-meals" data-tab="meals" aria-controls="panel-meals">Meals <span class="badge" id="badge-meals"></span></button>
+    <button class="tab" role="tab" id="tab-recipes" data-tab="recipes" aria-controls="panel-recipes">Recipes</button>
   </nav>
 
   <section id="panel-list" role="tabpanel" aria-labelledby="tab-list">
@@ -327,7 +383,7 @@ input::placeholder{color:var(--muted);opacity:1}
   </section>
 
   <section id="panel-meals" role="tabpanel" aria-labelledby="tab-meals" hidden>
-    <p class="lede">Add what each meal needs. Switch a meal on and its ingredients join the shopping list, with matching items <strong>combined into one line</strong>.</p>
+    <p class="lede">Add what each meal needs. Switch a meal on and its ingredients join the shopping list, with matching items <strong>combined into one line</strong>. Or add a whole meal in one tap from <button class="linkbtn" type="button" data-tab="recipes">Recipes</button>.</p>
     <p class="lede" id="meal-summary" style="margin-top:8px"></p>
     <form id="meal-form" class="addbar" autocomplete="off">
       <label class="sr" for="new-meal">Meal name</label>
@@ -335,6 +391,15 @@ input::placeholder{color:var(--muted);opacity:1}
       <button class="btn" type="submit">Add meal</button>
     </form>
     <div id="meal-cards"></div>
+  </section>
+
+  <section id="panel-recipes" role="tabpanel" aria-labelledby="tab-recipes" hidden>
+    <div id="recipe-bar" class="addbar" style="margin-top:18px">
+      <label class="sr" for="recipe-q">Search recipes</label>
+      <input id="recipe-q" type="text" placeholder="Search recipes" autocomplete="off">
+      <button class="btn" type="button" data-act="recipe-new">New recipe</button>
+    </div>
+    <div id="recipe-body"></div>
   </section>
 
   <p class="warn" id="store-note" hidden>This browser window is not keeping your changes. Open the page in a normal (non-private) window to save the list.</p>
@@ -388,6 +453,125 @@ function mergeMeals(meals){
   });
   return Array.from(map.values());
 }
+
+// One recipe line -> {name, amount, qty, prep}. "500g mince" keeps "500g" as the amount to cook with
+// and buys one pack; "2 peppers" buys two; "1 onion, finely chopped" keeps the chopping as a note.
+const UNITS='g|kg|mg|ml|cl|cm|l|ltr|litres?|liters?|tsp|tbsp|teaspoons?|tablespoons?|cups?|oz|lbs?|pints?|tins?|cans?|cloves?|pinch|dash|splash|handfuls?|bunch(?:es)?|slices?|packs?|packets?|cartons?|sachets?|knobs?|sticks?|sprigs?|jars?|bags?';
+const COUNT_UNITS=/^(tins?|cans?|cartons?|sachets?|packs?|packets?|jars?|bags?|bunch(?:es)?|cloves?|slices?|sticks?|sprigs?)$/i;
+const AMOUNT_RE=new RegExp('^((?:\\d+(?:[.,]\\d+)?(?:\\s+\\d/\\d)?|\\d/\\d|[½¼¾⅓⅔])(?:\\s*-\\s*\\d+)?)\\s*((?:(?:small|large|medium|big|heaped|level)\\s+)?)('+UNITS+')\\b\\.?\\s*(?:of\\s+)?(.+)$','i');
+const TIN_RE=/^(\d{1,2})\s*[x×]\s*(\d+(?:\.\d+)?\s*(?:g|kg|ml|l))\s*(tins?|cans?|cartons?|packs?|packets?|jars?|blocks?|bags?)\b\.?\s*(?:of\s+)?(.+)$/i;
+const FRAC_RE=/^(\d+\s+\d\/\d|\d\/\d|\d*[½¼¾⅓⅔])\s+(.+)$/;
+const RANGE_RE=/^(\d{1,2})\s*-\s*(\d{1,2})\s+(.+)$/;
+function parseRecipeLine(line){
+  let t=String(line).trim().replace(/^[-*•]\s*/,'');
+  if(!t || /:$/.test(t)) return null;
+  t=t.replace(/^an?\s+(?=(?:pinch|dash|splash|handful|bunch|knob)\b)/i,'1 ');
+  let prep='';
+  const ci=t.indexOf(',');
+  if(ci>0){ prep=t.slice(ci+1).trim(); t=t.slice(0,ci).trim(); }
+  let amount='',qty=1,name=t;
+  const m=t.match(AMOUNT_RE), tn=t.match(TIN_RE);
+  if(tn){
+    qty=parseInt(tn[1],10);
+    amount=tn[2].replace(/\s+/g,'')+' '+tn[3].toLowerCase().replace(/s$/,'');
+    name=tn[4].trim();
+  }else if(m){
+    const size=(m[2]||'').trim();
+    amount=((m[1]+' '+(size?size+' ':'')+m[3])).replace(/\s+(?=(?:g|kg|mg|ml|cl|cm|l)$)/i,'');
+    name=m[4].trim();
+    const n=parseFloat(m[1].replace(',','.'));
+    if(COUNT_UNITS.test(m[3]) && Number.isInteger(n) && n>=1 && n<=99 && !/-/.test(m[1])) qty=n;
+  }else{
+    const fr=t.match(FRAC_RE), rg=t.match(RANGE_RE);
+    if(fr){ amount=fr[1].replace(/\s+/g,' '); name=fr[2].trim(); }
+    else if(rg){ qty=parseInt(rg[2],10); amount=rg[1]+'-'+rg[2]; name=rg[3].trim(); }
+    else{
+      const n=t.match(/^(\d{1,2})\s*(?:x|×)?\s+(.+)$/i);
+      if(n){ qty=parseInt(n[1],10); name=n[2].trim(); }
+    }
+  }
+  if(!name) return null;
+  return {name:cap(name),amount:amount,qty:qty,prep:prep};
+}
+function recipeLine(i){
+  const base=i.amount?i.amount+' '+i.name:(i.qty>1?i.qty+' '+i.name:i.name);
+  return base+(i.prep?', '+i.prep:'');
+}
+function parseStepLine(line){
+  const t=String(line).trim().replace(/^(?:step\s*\d+\s*[:.)-]?\s*|\d+\s*[.)]\s+)/i,'');
+  if(!t) return null;
+  if(t.indexOf(' | ')<0) return t;
+  const f=t.split(' | ').map(s=>s.trim());
+  return {title:f[0]==='—'?'':f[0],text:f[1]||'',mins:f[2]||'',variant:f[3]||''};
+}
+function stepLine(s){
+  if(typeof s==='string') return s;
+  return [s.title||'—',s.text||'',s.mins||'',s.variant||''].join(' | ').replace(/( \| )+$/,'');
+}
+function stepsFromText(text){ return String(text).split('\n').map(parseStepLine).filter(Boolean); }
+
+// Ingredient line. Plain: "500g mince". Scaled: "Stock | 375 ml | Broth | c"
+// = name | amount per portion (add ! to round up to whole units) | group | variant key.
+function parseIngLine(line){
+  const raw=String(line).trim();
+  if(!raw) return null;
+  if(raw.indexOf(' | ')<0) return parseRecipeLine(raw);
+  const f=raw.split(' | ').map(s=>s.trim());
+  let name=f[0],prep='';
+  const ci=name.indexOf(',');
+  if(ci>0){ prep=name.slice(ci+1).trim(); name=name.slice(0,ci).trim(); }
+  const m=(f[1]||'').match(/^(\d+(?:\.\d+)?|\d\/\d)\s*([A-Za-z]*)\s*(!?)$/);
+  if(!name||!m) return null;
+  const per=m[1].indexOf('/')>0?(+m[1].split('/')[0])/(+m[1].split('/')[1]):parseFloat(m[1]);
+  return {name:cap(name),amount:'',qty:1,prep:prep,per:per,unit:m[2],whole:m[3]==='!',group:f[2]||'',variant:f[3]||''};
+}
+function ingLine(i){
+  if(i.per){
+    return [i.name+(i.prep?', '+i.prep:''),String(+i.per.toFixed(3))+(i.unit?' '+i.unit:'')+(i.whole?'!':''),i.group||'',i.variant||''].join(' | ').replace(/( \| )+$/,'');
+  }
+  return recipeLine(i);
+}
+
+const FRAC={0:'',0.25:'¼',0.5:'½',0.75:'¾'};
+function fracStr(x){
+  let q=Math.round(x*4)/4;
+  if(q<=0) q=0.25;
+  const w=Math.floor(q),r=q-w;
+  return (w?String(w):'')+FRAC[r];
+}
+// Amount to use for n portions, and how many to put on the shopping list.
+function scaleQty(ing,n){
+  const v=ing.per*n,u=ing.unit||'';
+  const up=Math.max(1,Math.ceil(v-1e-9));
+  if(!u) return {text:String(up),buy:up,count:true};
+  if(u==='g') return {text:Math.max(5,Math.round(v/5)*5)+' g',buy:1,count:false};
+  if(u==='ml'){
+    const m=Math.max(50,Math.round(v/50)*50);
+    return {text:m>=1000?(m/1000).toFixed(2).replace(/0$/,'').replace(/\.0$/,'')+' l':m+' ml',buy:1,count:false};
+  }
+  const countable=COUNT_UNITS.test(u);
+  return {text:(ing.whole?String(up):fracStr(v))+' '+u,buy:countable?up:1,count:countable};
+}
+
+// "bowl:2" or "bowl; c=Chicken:2; v=Quorn:2"
+function parsePortion(text){
+  const t=String(text).trim();
+  if(!t) return null;
+  const parts=t.split(';').map(s=>s.trim()).filter(Boolean);
+  const head=parts[0].split(':').map(s=>s.trim());
+  const p={word:head[0]||'portion',count:Math.min(12,Math.max(1,parseInt(head[1],10)||2)),variants:[]};
+  parts.slice(1).forEach(x=>{
+    const m=x.match(/^([A-Za-z0-9_]+)\s*=\s*([^:]+?)\s*(?::\s*(\d+))?$/);
+    if(m) p.variants.push({key:m[1],label:m[2],count:Math.min(12,parseInt(m[3]||'1',10))});
+  });
+  return p;
+}
+function portionText(p){
+  if(!p) return '';
+  if(!p.variants.length) return p.word+':'+p.count;
+  return p.word+'; '+p.variants.map(v=>v.key+'='+v.label+':'+v.count).join('; ');
+}
+const plural=(w,n)=>n===1?w:w+'s';
 //#PURE-END
 
 const KEY='weekly-shop-v1';
@@ -414,19 +598,20 @@ function seed(){
   };
 }
 
+function fix(s){ if(!Array.isArray(s.recipes)) s.recipes=[ramenSeed()]; return s; }
 function valid(s){
   return !!(s && Array.isArray(s.sections) && Array.isArray(s.meals) && s.ticks && typeof s.ticks==='object');
 }
 function load(){
   try{
     const raw=localStorage.getItem(KEY);
-    if(raw){ const s=JSON.parse(raw); if(valid(s)) return s; }
+    if(raw){ const s=JSON.parse(raw); if(valid(s)) return fix(s); }
   }catch(e){}
-  return seed();
+  return fix(seed());
 }
 
 let state=load();
-const ui={tab:'list',edit:false,collapsed:{},confirmFinish:false,confirmMeal:null,focus:null,addSection:null,saveFailed:false};
+const ui={counts:{},done:{},recipe:null,recipeEdit:null,q:'',skip:{},rmsg:'',confirmRecipe:false,scrollFocus:false,tab:'list',edit:false,collapsed:{},confirmFinish:false,confirmMeal:null,focus:null,addSection:null,saveFailed:false};
 
 /* ---------- storage: this device first, then the shared copy on Netlify ---------- */
 const API='/api/state';
@@ -476,7 +661,7 @@ function api(method,body){
 }
 function adopt(d,conflict){
   if(!valid(d.state)){ setStatus('offline'); return; }
-  state=d.state; sync.rev=d.rev; sync.dirty=false;
+  state=fix(d.state); sync.rev=d.rev; sync.dirty=false;
   clearTimeout(sync.timer);
   persist(); saveMeta();
   ui.confirmFinish=false; ui.confirmMeal=null;
@@ -558,13 +743,14 @@ function renderHeader(st){
   $('#badge-list').textContent=st.toGet?String(st.toGet):'';
   const on=state.meals.filter(m=>m.on).length;
   $('#badge-meals').textContent=on?String(on):'';
-  ['list','meals'].forEach(t=>{
+  ['list','meals','recipes'].forEach(t=>{
     const b=$('#tab-'+t);
     b.setAttribute('aria-selected',String(ui.tab===t));
     b.tabIndex=ui.tab===t?0:-1;
   });
   $('#panel-list').hidden=ui.tab!=='list';
   $('#panel-meals').hidden=ui.tab!=='meals';
+  $('#panel-recipes').hidden=ui.tab!=='recipes';
 }
 
 function renderSectionSelect(){
@@ -695,6 +881,9 @@ function renderMeals(st){
         +'<button class="btn small" type="button" data-act="mealdel-yes" data-meal="'+esc(m.id)+'">Delete</button>'
         +'<button class="btn ghost small" type="button" data-act="mealdel-no">Keep</button>';
     }else{
+      if(m.recipeId && state.recipes.some(r=>r.id===m.recipeId)){
+        html+='<button class="btn ghost small" type="button" data-act="openrecipe" data-id="'+esc(m.recipeId)+'">View recipe</button>';
+      }
       html+='<button class="btn ghost small" type="button" data-act="mealdel" data-meal="'+esc(m.id)+'">Delete meal</button>';
     }
     html+='</div></article>';
@@ -709,6 +898,7 @@ function render(){
   renderList(st);
   renderPantry();
   renderMeals(st);
+  renderRecipes();
   $('#store-note').hidden=!ui.saveFailed;
   if(ui.focus){
     const el=document.querySelector(ui.focus);
@@ -761,17 +951,326 @@ function finishShop(){
 }
 
 function setTab(t){
-  ui.tab=t==='meals'?'meals':'list';
+  ui.tab=(t==='meals'||t==='recipes')?t:'list';
   try{ location.hash=ui.tab; }catch(e){}
   render();
   window.scrollTo(0,0);
 }
 
+/* ---------- recipes ---------- */
+function recipeMeal(r){ return state.meals.find(m=>m.recipeId===r.id); }
+function portionOf(r){
+  if(r.portion) return r.portion;
+  return r.ings.some(i=>i.per)?{word:'portion',count:2,variants:[]}:null;
+}
+function getCounts(r){
+  const P=portionOf(r);
+  if(!P) return null;
+  if(!ui.counts[r.id]){
+    const c={};
+    if(P.variants.length) P.variants.forEach(v=>{ c[v.key]=v.count; }); else c._=P.count;
+    ui.counts[r.id]=c;
+  }
+  return ui.counts[r.id];
+}
+function totalOf(c){ return Object.keys(c).reduce((n,k)=>n+c[k],0); }
+// What an ingredient reads as for the current order, or null when its variant is at zero.
+function ingView(i,c){
+  if(i.variant && c && c[i.variant]===0) return null;
+  if(i.per && c){
+    const n=i.variant?(c[i.variant]||0):totalOf(c);
+    return scaleQty(i,n);
+  }
+  return {text:i.amount||(i.qty>1?'×'+i.qty:''),buy:i.qty||1,count:false};
+}
+function groupLabel(r,i,c){
+  const P=portionOf(r);
+  if(i.variant && P){
+    const v=P.variants.find(x=>x.key===i.variant);
+    if(v) return v.label+' × '+(c?c[i.variant]:v.count);
+  }
+  return i.group||'';
+}
+function normStep(s){ return typeof s==='string'?{title:'',text:s,mins:'',variant:''}:s; }
+function metaLine(r){
+  return [r.serves?'Serves '+r.serves:'',r.time||'',r.ings.length+(r.ings.length===1?' ingredient':' ingredients')].filter(Boolean).join(' · ');
+}
+
+function ramenSeed(){
+  const I=(name,per,unit,extra)=>Object.assign({name:name,amount:'',qty:1,prep:'',per:per,unit:unit||'',whole:false,group:'',variant:''},extra||{});
+  const ings=[
+    I('Vegetable stock',375,'ml',{group:'Broth'}),
+    I('Onion',0.25,'',{prep:'roughly chopped',group:'Broth'}),
+    I('Garlic cloves',1,'',{prep:'crushed',group:'Broth'}),
+    I('Fresh ginger',5,'g',{prep:'sliced',group:'Broth'}),
+    I('White miso paste',1,'tbsp',{group:'Broth'}),
+    I('Tahini',0.25,'tbsp',{group:'Broth'}),
+    I('Soy sauce',0.75,'tbsp',{group:'Broth'}),
+    I('Toasted sesame oil',0.25,'tbsp',{group:'Broth'}),
+    I('Fresh ramen noodles',100,'g',{group:'Bowls'}),
+    I('Pak choi',0.5,'',{prep:'halved',group:'Bowls'}),
+    I('Sweetcorn',25,'g',{group:'Bowls'}),
+    I('Carrot',0.25,'',{prep:'thin matchsticks',group:'Bowls'}),
+    I('Large eggs',1,'',{group:'Bowls'}),
+    I('Spring onions',1,'',{prep:'sliced',group:'Bowls'}),
+    I('Boneless chicken thighs',75,'g',{group:'Chicken',variant:'c'}),
+    I('Veg oil',0.25,'tbsp',{prep:'for frying',whole:true,group:'Chicken',variant:'c'}),
+    I('Quorn pieces',75,'g',{group:'Veggie',variant:'v'}),
+    I('Veg oil',0.25,'tbsp',{prep:'for frying',whole:true,group:'Veggie',variant:'v'})
+  ].map((x,n)=>Object.assign({id:'miso-ramen-i'+n},x));
+  return {
+    id:'miso-ramen',
+    name:'Miso Ramen',
+    tag:'One broth · two bowls · about 50 min',
+    serves:'4 bowls',
+    time:'about 50 min',
+    portion:{word:'bowl',count:2,variants:[{key:'c',label:'Chicken',count:2},{key:'v',label:'Quorn',count:2}]},
+    ings:ings,
+    steps:[
+      {title:'Build the broth',text:'Simmer the stock with the onion, garlic and ginger. Strain and discard the solids.',mins:'15–20 min',variant:''},
+      {title:'Season it',text:'Whisk in the miso, tahini, soy and sesame oil. Keep it below a rolling boil so the miso stays bright. Taste, adjust, keep warm.',mins:'2 min',variant:''},
+      {title:'Soft eggs',text:'Boil for 6½ minutes, cool in cold water, peel and halve.',mins:'7 min',variant:''},
+      {title:'Sear it',text:'Fry the thighs in oil, 5–6 minutes a side, until deeply golden. Rest, then slice.',mins:'12 min',variant:'c'},
+      {title:'Crisp it',text:'Use a separate pan so the veggie bowls stay meat-free. Fry in oil for 6–8 minutes until golden at the edges.',mins:'8 min',variant:'v'},
+      {title:'Noodles & veg',text:'Cook the noodles to the packet instructions. For the last minute, add the pak choi, sweetcorn and carrot to the same water. Drain well and divide between bowls.',mins:'4 min',variant:''},
+      {title:'Build the bowls',text:'Ladle over the hot broth. Add the egg and spring onions, then the chicken or Quorn on top.',mins:'',variant:''}
+    ],
+    notes:'Soupier? Add stock but keep the miso and soy as written.\nQuorn is milder than chicken. A splash of soy or a spoon of gochujang in its bowls helps.\nQuorn usually contains egg white, and some ramen noodles contain egg. Check packets for strict vegans.\nChilli oil on the side for anyone who wants heat.'
+  };
+}
+
+function renderRecipes(){
+  const box=$('#recipe-body');
+  if(ui.recipeEdit && box.querySelector('#recipe-form')) return;   // never wipe a form that is being typed in
+  const editing=!!ui.recipeEdit;
+  const r=ui.recipe?state.recipes.find(x=>x.id===ui.recipe):null;
+  if(ui.recipe && !r) ui.recipe=null;
+  $('#recipe-bar').hidden=editing||!!r;
+  let html='';
+
+  if(editing){
+    const cur=ui.recipeEdit==='new'?null:state.recipes.find(x=>x.id===ui.recipeEdit);
+    const v=cur||{name:'',serves:'',time:'',ings:[],steps:[],notes:'',portion:null};
+    html+='<form id="recipe-form" autocomplete="off"><h2 class="rtitle">'+(cur?'Edit recipe':'New recipe')+'</h2>'
+      +'<label class="fld"><span>Name</span><input id="rf-name" type="text" value="'+esc(v.name)+'"></label>'
+      +'<div class="frow"><label class="fld half"><span>Serves</span><input id="rf-serves" type="text" value="'+esc(v.serves)+'" placeholder="4"></label>'
+      +'<label class="fld half"><span>Time</span><input id="rf-time" type="text" value="'+esc(v.time)+'" placeholder="45 min"></label></div>'
+      +'<label class="fld"><span>Ingredients</span><textarea class="field" id="rf-ings" rows="8" placeholder="500g mince&#10;2 peppers&#10;1 onion, finely chopped">'+esc(v.ings.map(ingLine).join('\n'))+'</textarea></label>'
+      +'<p class="hint">One per line. A number before the name, like "2 peppers", is how many to buy.</p>'
+      +'<label class="fld"><span>Method</span><textarea class="field" id="rf-steps" rows="8" placeholder="One step per line">'+esc(v.steps.map(stepLine).join('\n'))+'</textarea></label>'
+      +'<label class="fld"><span>Notes</span><textarea class="field" id="rf-notes" rows="3" placeholder="One note per line">'+esc(v.notes)+'</textarea></label>'
+      +'<details class="import"><summary>Scaling by portions (optional)</summary>'
+      +'<label class="fld"><span>Portions</span><input id="rf-portion" type="text" value="'+esc(portionText(v.portion))+'" placeholder="bowl; c=Chicken:2; v=Quorn:2"></label>'
+      +'<p class="hint">Use "bowl:2" for one counter, or the longer form for a split such as Chicken and Quorn.</p>'
+      +'<p class="hint">Then write scaled ingredients as: name | amount per portion | group | split key. For example: Stock | 375 ml | Broth, or Veg oil, for frying | 0.25 tbsp! | Chicken | c. Add ! to round up to whole spoons.</p>'
+      +'<p class="hint">Steps can be: Title | what to do | 15 min | split key.</p></details>'
+      +'<div class="rfoot"><button class="btn" type="submit">Save recipe</button><button class="btn ghost" type="button" data-act="recipe-cancel">Cancel</button></div></form>';
+  }else if(r){
+    const m=recipeMeal(r);
+    const onList=!!(m&&m.on);
+    const P=portionOf(r);
+    const c=getCounts(r);
+    const done=ui.done[r.id]||{};
+    const sub=r.tag||[r.serves?'Serves '+r.serves:'',r.time||''].filter(Boolean).join(' · ');
+    html+='<p style="margin:18px 0 0"><button class="linkbtn" type="button" data-act="recipe-back">← All recipes</button></p>'
+      +'<h2 class="rtitle">'+esc(r.name)+'</h2>'+(sub?'<p class="sub">'+esc(sub)+'</p>':'');
+
+    if(P && c){
+      const tot=totalOf(c);
+      html+='<div class="order"><div class="order-top"><span class="h2">Order</span><span class="otot">'+tot+' '+plural(P.word,tot)+'</span></div>';
+      const rows=P.variants.length?P.variants.map(v=>({k:v.key,label:v.label+' '+plural(P.word,2)})):[{k:'_',label:cap(plural(P.word,2))}];
+      rows.forEach(x=>{
+        html+='<div class="orow"><span class="olabel">'+esc(x.label)+'</span><div class="step">'
+          +'<button type="button" data-act="cnt" data-k="'+esc(x.k)+'" data-d="-1" aria-label="Fewer '+esc(x.label)+'">−</button>'
+          +'<span class="n" aria-label="Quantity">'+c[x.k]+'</span>'
+          +'<button type="button" data-act="cnt" data-k="'+esc(x.k)+'" data-d="1" aria-label="More '+esc(x.label)+'">+</button></div></div>';
+      });
+      html+='</div>';
+    }
+
+    const groups=[],gidx={};
+    r.ings.forEach(i=>{
+      const v=ingView(i,c);
+      if(!v) return;
+      const g=groupLabel(r,i,c);
+      if(!(g in gidx)){ gidx[g]=groups.length; groups.push({name:g,rows:[]}); }
+      groups[gidx[g]].rows.push({i:i,v:v});
+    });
+    let picked=0;
+    groups.forEach(g=>g.rows.forEach(x=>{ if(!ui.skip[x.i.id]) picked++; }));
+
+    html+='<div class="ractions">';
+    if(onList){
+      html+='<p>On your meals. Its ingredients are on the <button class="linkbtn" type="button" data-tab="list">shopping list</button>.</p>'
+        +'<button class="btn ghost" type="button" data-act="recipe-addmeal"'+(picked?'':' disabled')+'>Update amounts</button>'
+        +'<button class="btn ghost" type="button" data-act="recipe-offmeal">Take off meals</button>';
+    }else{
+      html+='<button class="btn" type="button" data-act="recipe-addmeal"'+(picked?'':' disabled')+'>Add '+picked+(picked===1?' ingredient':' ingredients')+' to meals</button>'
+        +'<p>Untick anything you already have.</p>';
+    }
+    html+='</div>';
+
+    html+='<div class="sechead"><h2 class="h2">Ingredients</h2><span class="count">'+picked+' selected</span></div>';
+    if(groups.length){
+      groups.forEach(g=>{
+        if(g.name) html+='<div class="grp">'+esc(g.name)+'</div>';
+        html+='<ul class="rows">';
+        g.rows.forEach(x=>{
+          const i=x.i,skipped=!!ui.skip[i.id];
+          html+='<li class="row rrow'+(skipped?' done':'')+'"><label><input class="chk" type="checkbox" data-act="pick" data-id="'+esc(i.id)+'"'+(skipped?'':' checked')+'><span class="name">'
+            +esc(i.name)+(i.prep?'<span class="prep">, '+esc(i.prep)+'</span>':'')+'</span></label>'
+            +(x.v.text?'<span class="lead"></span><span class="qty">'+esc(x.v.text)+'</span>':'')+'</li>';
+        });
+        html+='</ul>';
+      });
+    }else{
+      html+='<p class="meal-empty">No ingredients yet. Use Edit to add them.</p>';
+    }
+
+    html+='<div class="sechead"><h2 class="h2">Method</h2></div>';
+    if(r.steps.length){
+      html+='<p class="hint" style="margin:0 0 10px">Tap a step to tick it off as you cook.</p><ol class="steps">';
+      r.steps.forEach((s0,idx)=>{
+        const s=normStep(s0);
+        if(s.variant && c && c[s.variant]===0) return;
+        const vr=s.variant&&P?P.variants.find(x=>x.key===s.variant):null;
+        const head=(vr?'<span class="who">'+esc(vr.label)+'</span> ':'')+esc(s.title||'');
+        html+='<li data-act="tickstep" data-i="'+idx+'" role="checkbox" aria-checked="'+(!!done[idx])+'" tabindex="0"'+(done[idx]?' class="done"':'')+'><div class="sbody">'
+          +(head.trim()?'<h3 class="stitle">'+head+'</h3>':'')+'<p>'+esc(s.text)+'</p>'
+          +(s.mins?'<span class="mins">'+esc(s.mins)+'</span>':'')+'</div></li>';
+      });
+      html+='</ol>';
+    }else{
+      html+='<p class="meal-empty">No method yet. Use Edit to add it.</p>';
+    }
+
+    if(r.notes){
+      const lines=r.notes.split('\n').map(x=>x.trim()).filter(Boolean);
+      html+='<div class="memo"><span class="memo-h">Notes</span>'
+        +(lines.length>1?'<ul>'+lines.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>':'<p>'+esc(lines[0]||'')+'</p>')+'</div>';
+    }
+    html+='<div class="rfoot">';
+    if(ui.confirmRecipe){
+      html+='<p>Delete '+esc(r.name)+'? Any meal made from it stays.</p><button class="btn small" type="button" data-act="recipe-del-yes">Delete</button><button class="btn ghost small" type="button" data-act="recipe-del-no">Keep</button>';
+    }else{
+      html+='<button class="btn ghost small" type="button" data-act="recipe-edit">Edit</button><button class="btn ghost small" type="button" data-act="recipe-del">Delete</button>';
+    }
+    html+='</div>';
+  }else{
+    const needle=ui.q.trim().toLowerCase();
+    const list=state.recipes.filter(x=>!needle||x.name.toLowerCase().includes(needle)||x.ings.some(i=>i.name.toLowerCase().includes(needle)))
+      .slice().sort((a,b)=>a.name.localeCompare(b.name));
+    html+='<div class="sechead"><h2 class="h2">Recipes</h2><span class="count">'+(needle?list.length+' of '+state.recipes.length:state.recipes.length)+'</span></div>';
+    if(ui.rmsg) html+='<p class="msg">'+esc(ui.rmsg)+'</p>';
+    if(list.length){
+      html+='<ul class="rows">';
+      list.forEach(x=>{
+        const m=recipeMeal(x);
+        html+='<li class="row"><button class="rbtn" type="button" data-act="openrecipe" data-id="'+esc(x.id)+'"><span class="rname">'+esc(x.name)+'</span><span class="rmeta">'+esc(metaLine(x))+'</span></button>'
+          +(m&&m.on?'<span class="pill">On meals</span>':'')+'</li>';
+      });
+      html+='</ul>';
+    }else if(state.recipes.length){
+      html+='<p class="empty">No recipes match "'+esc(ui.q.trim())+'".</p>';
+    }else{
+      html+='<p class="empty">No recipes yet. Tap New recipe to add your first, or import a recipes file below.</p>';
+    }
+    html+='<details class="import"><summary>Import recipes</summary><p>Choose a recipes file (.json). Recipes with a name you already have are skipped.</p>'
+      +'<label class="sr" for="recipe-file">Recipes file</label><input id="recipe-file" type="file" accept=".json,application/json"></details>';
+  }
+  box.innerHTML=html;
+}
+
+function saveRecipeForm(){
+  const name=$('#rf-name').value.trim();
+  if(!name){ $('#rf-name').focus(); return; }
+  const ings=$('#rf-ings').value.split('\n').map(parseIngLine).filter(Boolean).map(p=>Object.assign({id:uid()},p));
+  let portion=parsePortion($('#rf-portion').value);
+  if(!portion && ings.some(i=>i.per)) portion={word:'portion',count:2,variants:[]};
+  const data={
+    name:name,
+    serves:$('#rf-serves').value.trim(),
+    time:$('#rf-time').value.trim(),
+    ings:ings,
+    steps:stepsFromText($('#rf-steps').value),
+    notes:$('#rf-notes').value.trim(),
+    portion:portion
+  };
+  if(ui.recipeEdit==='new'){
+    const r=Object.assign({id:uid()},data);
+    state.recipes.push(r);
+    ui.recipe=r.id;
+  }else{
+    const r=state.recipes.find(x=>x.id===ui.recipeEdit);
+    if(r) Object.assign(r,data);
+  }
+  ui.recipeEdit=null; ui.skip={}; ui.rmsg=''; ui.counts={}; ui.done={};
+  commit();
+  window.scrollTo(0,0);
+}
+
+function ingFromImport(x){
+  if(typeof x==='string') return parseIngLine(x);
+  if(!x||!x.name) return null;
+  const o={name:cap(String(x.name).trim()),amount:x.amount?String(x.amount):'',qty:parseInt(x.qty,10)||1,prep:x.note?String(x.note):(x.prep?String(x.prep):'')};
+  if(x.per){ o.per=+x.per; o.unit=x.unit?String(x.unit):''; o.whole=!!x.whole; o.group=x.group?String(x.group):''; o.variant=x.variant?String(x.variant):''; }
+  return o;
+}
+function stepFromImport(x){
+  if(typeof x==='string') return parseStepLine(x);
+  if(!x||!x.text) return null;
+  return {title:x.title?String(x.title):'',text:String(x.text),mins:x.mins?String(x.mins):'',variant:x.variant?String(x.variant):''};
+}
+function portionFromImport(p){
+  if(!p||typeof p!=='object') return null;
+  return {word:p.word?String(p.word):'portion',count:Math.min(12,Math.max(1,parseInt(p.count,10)||2)),
+    variants:(Array.isArray(p.variants)?p.variants:[]).filter(v=>v&&v.key).map(v=>({key:String(v.key),label:String(v.label||v.key),count:Math.min(12,Math.max(0,parseInt(v.count,10)||0))}))};
+}
+
+function importRecipes(file){
+  const rd=new FileReader();
+  rd.onload=()=>{
+    let arr;
+    try{ const j=JSON.parse(rd.result); arr=Array.isArray(j)?j:j.recipes; if(!Array.isArray(arr)) throw new Error('shape'); }
+    catch(e){ ui.rmsg='That file is not a recipes list.'; render(); return; }
+    let added=0,skipped=0;
+    arr.forEach(x=>{
+      if(!x||!x.name) return;
+      if(state.recipes.some(r=>norm(r.name)===norm(x.name))){ skipped++; return; }
+      const ings=(Array.isArray(x.ingredients)?x.ingredients:[]).map(ingFromImport).filter(Boolean).map(p=>Object.assign({id:uid()},p));
+      state.recipes.push({
+        id:uid(),name:String(x.name).trim(),tag:x.tag?String(x.tag):'',
+        serves:x.serves?String(x.serves):'',time:x.time?String(x.time):'',
+        portion:portionFromImport(x.portion),ings:ings,
+        steps:(Array.isArray(x.method)?x.method:[]).map(stepFromImport).filter(Boolean),
+        notes:Array.isArray(x.notes)?x.notes.map(String).join('\n'):(x.notes?String(x.notes):'')
+      });
+      added++;
+    });
+    ui.rmsg='Imported '+added+(added===1?' recipe':' recipes')+(skipped?', skipped '+skipped+' already here':'')+'.';
+    commit();
+  };
+  rd.onerror=()=>{ ui.rmsg='Could not read that file.'; render(); };
+  rd.readAsText(file);
+}
+
+document.addEventListener('keydown',e=>{
+  if((e.key==='Enter'||e.key===' ') && e.target.matches && e.target.matches('li[data-act="tickstep"]')){ e.preventDefault(); e.target.click(); }
+});
+
+document.addEventListener('input',e=>{
+  if(e.target.id==='recipe-q'){ ui.q=e.target.value; renderRecipes(); }
+});
+
 /* ---------- events ---------- */
 document.addEventListener('click',e=>{
   const t=e.target.closest('[data-tab],[data-act]');
   if(!t) return;
-  if(t.dataset.tab){ setTab(t.dataset.tab); return; }
+  if(t.dataset.tab){
+    if(t.dataset.tab==='recipes' && ui.tab==='recipes'){ ui.recipe=null; ui.recipeEdit=null; ui.rmsg=''; ui.confirmRecipe=false; }
+    setTab(t.dataset.tab);
+    return;
+  }
   const a=t.dataset.act;
   const d=t.dataset;
   const meal=d.meal?state.meals.find(m=>m.id===d.meal):null;
@@ -791,6 +1290,61 @@ document.addEventListener('click',e=>{
     case 'mealdel': ui.confirmMeal=d.meal; render(); break;
     case 'mealdel-no': ui.confirmMeal=null; render(); break;
     case 'mealdel-yes': state.meals=state.meals.filter(m=>m.id!==d.meal); ui.confirmMeal=null; commit(); break;
+    case 'openrecipe': { ui.recipe=d.id; ui.recipeEdit=null; ui.skip={}; ui.rmsg=''; ui.confirmRecipe=false; delete ui.counts[d.id]; delete ui.done[d.id]; setTab('recipes'); break; }
+    case 'cnt': {
+      const r=state.recipes.find(x=>x.id===ui.recipe);
+      const c=r&&getCounts(r);
+      if(c){
+        const keys=Object.keys(c);
+        const nv=c[d.k]+parseInt(d.d,10);
+        if(nv<(keys.length>1?0:1)||nv>12) break;
+        c[d.k]=nv;
+        if(totalOf(c)===0){ const o=keys.find(k=>k!==d.k); if(o) c[o]=1; }
+        ui.focus='button[data-act="cnt"][data-k="'+d.k+'"][data-d="'+d.d+'"]';
+        render();
+      }
+      break;
+    }
+    case 'tickstep': {
+      const dn=ui.done[ui.recipe]||(ui.done[ui.recipe]={});
+      dn[d.i]=!dn[d.i];
+      ui.focus='li[data-act="tickstep"][data-i="'+d.i+'"]';
+      render();
+      break;
+    }
+    case 'recipe-back': ui.recipe=null; ui.recipeEdit=null; ui.rmsg=''; ui.confirmRecipe=false; render(); window.scrollTo(0,0); break;
+    case 'recipe-new': ui.recipe=null; ui.recipeEdit='new'; ui.focus='#rf-name'; ui.scrollFocus=true; render(); break;
+    case 'recipe-edit': ui.recipeEdit=ui.recipe; ui.focus='#rf-name'; ui.scrollFocus=true; render(); break;
+    case 'recipe-cancel': ui.recipeEdit=null; render(); window.scrollTo(0,0); break;
+    case 'recipe-del': ui.confirmRecipe=true; render(); break;
+    case 'recipe-del-no': ui.confirmRecipe=false; render(); break;
+    case 'recipe-del-yes': state.recipes=state.recipes.filter(x=>x.id!==ui.recipe); ui.recipe=null; ui.confirmRecipe=false; commit(); window.scrollTo(0,0); break;
+    case 'recipe-addmeal': {
+      const r=state.recipes.find(x=>x.id===ui.recipe);
+      if(r){
+        const c=getCounts(r);
+        const map=new Map();
+        r.ings.forEach(i=>{
+          if(ui.skip[i.id]) return;
+          const v=ingView(i,c);
+          if(!v) return;
+          const k=norm(i.name);
+          const e=map.get(k);
+          if(!e) map.set(k,{id:uid(),name:i.name,qty:v.buy,count:v.count});
+          else if(v.count && e.count) e.qty+=v.buy;
+          else e.qty=Math.max(e.qty,v.buy);
+        });
+        const ings=Array.from(map.values()).map(e=>({id:e.id,name:e.name,qty:e.qty}));
+        if(ings.length){
+          const m=recipeMeal(r);
+          if(m){ m.ings=ings; m.on=true; }
+          else state.meals.push({id:uid(),name:r.name,on:true,recipeId:r.id,ings:ings});
+          commit();
+        }
+      }
+      break;
+    }
+    case 'recipe-offmeal': { const r=state.recipes.find(x=>x.id===ui.recipe); const m=r&&recipeMeal(r); if(m){ m.on=false; ui.rmsg=''; commit(); } break; }
     case 'backup-copy': backupCopy(); break;
     case 'backup-restore': backupRestore(); break;
     default: break;
@@ -800,6 +1354,7 @@ document.addEventListener('click',e=>{
 document.addEventListener('change',e=>{
   const t=e.target;
   if(t.id==='new-section'){ ui.addSection=t.value; return; }
+  if(t.id==='recipe-file'){ if(t.files&&t.files[0]) importRecipes(t.files[0]); return; }
   const a=t.dataset?t.dataset.act:null;
   if(!a) return;
   if(a==='tick'){
@@ -810,6 +1365,10 @@ document.addEventListener('change',e=>{
     if(t.checked) state.ticks[k]=true; else delete state.ticks[k];
     ui.focus='input[data-act="tickmeal"][data-key="'+q(k)+'"]';
     commit();
+  }else if(a==='pick'){
+    ui.skip[t.dataset.id]=!t.checked;
+    ui.focus='input[data-act="pick"][data-id="'+q(t.dataset.id)+'"]';
+    render();
   }else if(a==='mealon'){
     const m=state.meals.find(x=>x.id===t.dataset.meal);
     if(m){ m.on=t.checked; ui.focus='#sw-'+q(m.id); commit(); }
@@ -822,6 +1381,7 @@ document.addEventListener('change',e=>{
 document.addEventListener('submit',e=>{
   e.preventDefault();
   const f=e.target;
+  if(f.id==='recipe-form'){ saveRecipeForm(); return; }
   if(f.id==='auth-form'){
     const v=$('#passcode').value.trim();
     if(v){
@@ -882,7 +1442,7 @@ function backupRestore(){
   try{
     const s=JSON.parse(box.value);
     if(!valid(s)) throw new Error('shape');
-    state=s;
+    state=fix(s);
     ui.confirmFinish=false; ui.confirmMeal=null;
     commit();
     backupMsg('Restored.');
@@ -892,7 +1452,7 @@ function backupRestore(){
 }
 
 /* ---------- start ---------- */
-function fromHash(){ ui.tab=location.hash==='#meals'?'meals':'list'; }
+function fromHash(){ ui.tab=(location.hash==='#meals'||location.hash==='#recipes')?location.hash.slice(1):'list'; }
 window.addEventListener('hashchange',()=>{ fromHash(); render(); });
 fromHash();
 persist();
